@@ -179,7 +179,7 @@ echo ''
 echo -e '\e[32mCreating custom metrics\e[39m'
 echo ''
 
-
+cd $HOME
 mkdir aptos-monitoring
 sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<\EOL
 #!/bin/bash
