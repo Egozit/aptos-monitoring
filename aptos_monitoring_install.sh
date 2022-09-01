@@ -54,7 +54,7 @@ then echo -e '\n\e[42mPrometheus is already installed\e[0m\n';
 else 
 echo -e '\n\e[42mInstalling prometheus\e[0m\n'
 
-cd
+cd $HOME
 sudo useradd --no-create-home --shell /usr/sbin/nologin prometheus
 sudo apt-get install -y prometheus prometheus-node-exporter prometheus-pushgateway prometheus-alertmanager
 
