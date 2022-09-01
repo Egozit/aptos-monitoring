@@ -180,8 +180,8 @@ echo -e '\e[32mCreating custom metrics\e[39m'
 echo ''
 
 cd $HOME
-rm -rf aptos-monitoring
-mkdir aptos-monitoring
+sudo rm -rf aptos-monitoring
+sudo mkdir aptos-monitoring
 sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<\EOL
 #!/bin/bash
 chain_id=`curl http://localhost:${APTOS_API_PORT_MON}/v1 | jq .chain_id`
