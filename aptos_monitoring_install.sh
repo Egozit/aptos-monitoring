@@ -169,7 +169,7 @@ chain_id=`curl http://localhost:80/v1 | jq .chain_id`
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
   aptos_chain_id $chain_id
 EOF
-stake=`curl http://142.132.131.15/v1/accounts/${ADDR_CROWD}/resources | jq -r '.[] | select(.type=="0x1::stake::StakePool") | .data.active.value'`
+stake=`curl http://185.16.39.87/v1/accounts/${ADDR_CROWD}/resources | jq -r '.[] | select(.type=="0x1::stake::StakePool") | .data.active.value'`
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
   aptos_stake $stake
 EOF
