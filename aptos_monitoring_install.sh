@@ -64,6 +64,7 @@ ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_addre
 ADDR_CROWD="0x${ADDR_CROWD}"
 NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
 
+
 if [ ! $NODE_NAME ]; then
 read -p "Enter node name (to recognise yourself in the dashboard): " NODE_NAME
 echo 'export NODE_NAME='\"${NODE_NAME}\" >> $HOME/.bash_profile
@@ -72,6 +73,22 @@ fi
 if [ ! $ADDR_CROWD ]; then
 read -p "Enter owner address: " ADDR_CROWD
 echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
+fi
+
+APTOS_API_PORT_TEST=$(curl http://localhost:80/v1)
+if [ ! $APTOS_API_PORT_TEST ]; 
+then
+  APTOS_API_PORT_TEST=$(curl http://localhost:8080/v1)
+  if [ ! $APTOS_API_PORT_TEST ]; 
+  then
+    echo 'Could not reach you API'
+  else
+    APTOS_API_PORT_MON="8080"
+    echo 'export APTOS_API_PORT_MON='"${APTOS_API_PORT_MON}" >> $HOME/.bash_profile
+  fi
+else
+  APTOS_API_PORT_MON="80"
+  echo 'export APTOS_API_PORT_MON='"${APTOS_API_PORT_MON}" >> $HOME/.bash_profile
 fi
 
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
@@ -165,7 +182,7 @@ echo ''
 mkdir aptos-monitoring
 sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<EOL
 #!/bin/bash
-chain_id=`curl http://localhost:80/v1 | jq .chain_id`
+chain_id=`curl http://localhost:${APTOS_API_PORT_MON}/v1 | jq .chain_id`
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
   aptos_chain_id $chain_id
 EOF
