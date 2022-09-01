@@ -158,15 +158,27 @@ sudo systemctl restart prometheus
 sleep 2
 
 echo ''
-echo -e '\e[32mCloning github repo\e[39m'
+echo -e '\e[32mCreating custom metrics\e[39m'
 echo ''
 
-git clone https://github.com/Egozit/aptos-monitoring.git >/dev/null 2>&1
-chmod +x aptos-monitoring/get_chain_id.sh
+
+mkdir aptos-monitoring
+sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<EOL
+#!/bin/bash
+chain_id=`curl http://localhost:80/v1 | jq .chain_id`
+cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
+  aptos_chain_id $chain_id
+EOF
+stake=`curl http://142.132.131.15/v1/accounts/${ADDR_CROWD}/resources | jq -r '.[] | select(.type=="0x1::stake::StakePool") | .data.active.value'`
+cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
+  aptos_stake $stake
+EOF
+EOL
+chmod +x aptos-monitoring/get_custom_metric.sh
 
 crontab -l > mycron
 #echo new cron into cron file
-echo "*/5 * * * * bash $HOME/aptos-monitoring/get_chain_id.sh" >> mycron
+echo "*/5 * * * * bash $HOME/aptos-monitoring/get_custom_metric.sh" >> mycron
 #install new cron file
 crontab mycron
 rm mycron
@@ -190,6 +202,6 @@ echo ''
 echo -e '\e[7mYour aptos node monitoring is installed!\e[0m'
 echo ''
 echo -e 'You can go to our comunity dashboard and select you node from the server list:'
-echo -e 'LINK HERE'
+echo -e '\e[7mhttp://95.216.2.219:3000/d/tWti5eZ4k/aptos-validator-overview-by-l0vd\e[0m'
 echo -e ''
 echo -e 'Check prometheus logs: \e[7msudo journalctl -u prometheus -f\e[0m'
