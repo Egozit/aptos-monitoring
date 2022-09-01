@@ -22,5 +22,9 @@
 * Sends all metrics to already configured Grafana Dashboard
 * Adds custom metrics like chain_id, stake amount and missed proposals which are crusial for AIT3 Rewards
 
+# Troubleshooting:
+If you encounter any additional issues feel free to cantact us on telegram:
+https://t.me/L0vd_staking
+
 # Screenshots
 ![Screenshot_1](https://github.com/Egozit/monitoring-screenshots/blob/0c7f4eb69f346dba1445ee1b7a1f5eea02f54659/Screenshot_2.png)
