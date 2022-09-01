@@ -184,11 +184,11 @@ sudo rm -rf aptos-monitoring
 sudo mkdir aptos-monitoring
 sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<\EOL
 #!/bin/bash
-chain_id=$(curl http://localhost:${APTOS_API_PORT_MON}/v1 | jq .chain_id)
+chain_id=`curl http://localhost:${APTOS_API_PORT_MON}/v1 | jq .chain_id`
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
   aptos_chain_id $chain_id
 EOF
-stake=$(curl http://185.16.39.87/v1/accounts/${ADDR_CROWD}/resources | jq -r '.[] | select(.type=="0x1::stake::StakePool") | .data.active.value')
+stake=`curl http://185.16.39.87/v1/accounts/${ADDR_CROWD}/resources | jq -r '.[] | select(.type=="0x1::stake::StakePool") | .data.active.value'`
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
   aptos_stake $stake
 EOF
