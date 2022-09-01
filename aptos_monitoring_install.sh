@@ -49,22 +49,6 @@ fi
 
 sleep 2
 
-echo ''
-echo -e '\e[32mCloning github repo\e[39m'
-echo ''
-
-git clone https://github.com/Egozit/aptos-monitoring.git >/dev/null 2>&1
-chmod +x aptos-monitoring/get_chain_id.sh
-
-crontab -l > mycron
-#echo new cron into cron file
-echo "*/5 * * * * bash $HOME/aptos-monitoring/get_chain_id.sh" >> mycron
-#install new cron file
-crontab mycron
-rm mycron
-
-sleep 2
-
 if installed prometheus;
 then echo -e '\n\e[42mPrometheus is already installed\e[0m\n';
 else 
@@ -166,6 +150,23 @@ remote_write:
 EOL
 
 sudo systemctl restart prometheus
+
+sleep 2
+
+echo ''
+echo -e '\e[32mCloning github repo\e[39m'
+echo ''
+
+git clone https://github.com/Egozit/aptos-monitoring.git >/dev/null 2>&1
+chmod +x aptos-monitoring/get_chain_id.sh
+
+crontab -l > mycron
+#echo new cron into cron file
+echo "*/5 * * * * bash $HOME/aptos-monitoring/get_chain_id.sh" >> mycron
+#install new cron file
+crontab mycron
+rm mycron
+
 
 
 sleep 4
