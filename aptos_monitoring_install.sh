@@ -77,8 +77,18 @@ sudo apt-get install -y prometheus prometheus-node-exporter prometheus-pushgatew
 fi
 
 ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_address" | awk '{printf $2}')
-ADDR_CROWD="0x${ADDR_CROWD}"
-MONIKER_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
+ADDR_CROWD=\"0x${ADDR_CROWD}\"
+NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
+
+if [ ! $NODE_NAME ]; then
+read -p "Enter node name (to recognise yourself in the dashboard): " NODE_NAME
+echo 'export NODE_NAME='\"${NODE_NAME}\" >> $HOME/.bash_profile
+fi
+
+if [ ! $ADDR_CROWD ]; then
+read -p "Enter owner address: " ADDR_CROWD
+echo 'export ADDR_CROWD='\"${ADDR_CROWD}\" >> $HOME/.bash_profile
+fi
 
 sudo cat > /etc/prometheus/prometheus.yml <<EOL
 
@@ -121,8 +131,8 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
         labels:
-          moniker_name: ${MONIKER_NAME}
-          addr_crowd: '${ADDR_CROWD}'
+          moniker_name: ${NODE_NAME}
+          addr_crowd: ${ADDR_CROWD}
 
   - job_name: node
     # If prometheus-node-exporter is installed, grab stats about the local
@@ -131,24 +141,24 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9100']
         labels:
-          moniker_name: ${MONIKER_NAME}
-          addr_crowd: '${ADDR_CROWD}'
+          moniker_name: ${NODE_NAME}
+          addr_crowd: ${ADDR_CROWD}
 
   - job_name: aptos
     honor_labels: true
     static_configs:
       - targets: ['localhost:9101']
         labels:
-          moniker_name: ${MONIKER_NAME}
-          addr_crowd: '${ADDR_CROWD}'
+          moniker_name: ${NODE_NAME}
+          addr_crowd: ${ADDR_CROWD}
 
   - job_name: pushgateway
     honor_labels: true
     static_configs:
       - targets: ['localhost:9091']
         labels:
-          moniker_name: ${MONIKER_NAME}
-          addr_crowd: '${ADDR_CROWD}'
+          moniker_name: ${NODE_NAME}
+          addr_crowd: ${ADDR_CROWD}
 
 remote_write:
   - url: http://95.216.2.219:1234/receive
