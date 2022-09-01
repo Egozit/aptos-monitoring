@@ -1,6 +1,6 @@
 # Aptos node monitoring tool
-## Community dashboard by L0vd.com: 
-## [Dashboard link](http://95.216.2.219:3000/d/tWti5eZ4k/aptos-validator-overview-by-l0vd)
+## [Community dashboard by L0vd.com](http://95.216.2.219:3000/d/tWti5eZ4k/aptos-validator-overview-by-l0vd)
+
 
 
 ## Advantages  of using our free service:
