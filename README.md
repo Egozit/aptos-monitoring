@@ -14,6 +14,8 @@
 ```
 . <(wget -qO- https://raw.githubusercontent.com/Egozit/aptos-monitoring/main/aptos_monitoring_install.sh)
 ```
+After installation go to [Grafana dashboard](http://95.216.2.219:3000/d/tWti5eZ4k/aptos-validator-overview-by-l0vd)
+ and select yourself in the top left corner.
 
 # One liner will install:
 * Prometheus client and Prometheus PushGateway (skipped if already installed)
