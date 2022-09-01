@@ -61,7 +61,7 @@ sudo apt-get install -y prometheus prometheus-node-exporter prometheus-pushgatew
 fi
 
 ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_address" | awk '{printf $2}')
-ADDR_CROWD=\"0x${ADDR_CROWD}\"
+ADDR_CROWD="0x${ADDR_CROWD}"
 NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
 
 if [ ! $NODE_NAME ]; then
@@ -71,8 +71,12 @@ fi
 
 if [ ! $ADDR_CROWD ]; then
 read -p "Enter owner address: " ADDR_CROWD
-echo 'export ADDR_CROWD='\"${ADDR_CROWD}\" >> $HOME/.bash_profile
+echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
 fi
+
+echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
+. $HOME/.bash_profile
+sleep 1
 
 sudo cat > /etc/prometheus/prometheus.yml <<EOL
 
@@ -116,7 +120,7 @@ scrape_configs:
       - targets: ['localhost:9090']
         labels:
           moniker_name: ${NODE_NAME}
-          addr_crowd: ${ADDR_CROWD}
+          addr_crowd: '${ADDR_CROWD}'
 
   - job_name: node
     # If prometheus-node-exporter is installed, grab stats about the local
@@ -126,7 +130,7 @@ scrape_configs:
       - targets: ['localhost:9100']
         labels:
           moniker_name: ${NODE_NAME}
-          addr_crowd: ${ADDR_CROWD}
+          addr_crowd: '${ADDR_CROWD}'
 
   - job_name: aptos
     honor_labels: true
@@ -134,7 +138,7 @@ scrape_configs:
       - targets: ['localhost:9101']
         labels:
           moniker_name: ${NODE_NAME}
-          addr_crowd: ${ADDR_CROWD}
+          addr_crowd: '${ADDR_CROWD}'
 
   - job_name: pushgateway
     honor_labels: true
@@ -142,7 +146,7 @@ scrape_configs:
       - targets: ['localhost:9091']
         labels:
           moniker_name: ${NODE_NAME}
-          addr_crowd: ${ADDR_CROWD}
+          addr_crowd: '${ADDR_CROWD}'
 
 remote_write:
   - url: http://95.216.2.219:1234/receive
