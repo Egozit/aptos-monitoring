@@ -182,7 +182,7 @@ echo ''
 cd $HOME
 sudo rm -rf aptos-monitoring
 sudo mkdir aptos-monitoring
-sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<EOL
+sudo cat > $HOME/aptos-monitoring/get_custom_metric.sh <<\EOL
 #!/bin/bash
 chain_id=$(curl http://localhost:${APTOS_API_PORT_MON}/v1 | jq .chain_id)
 cat << EOF | curl --data-binary @- http://localhost:9091/metrics/job/aptos_chain_id
