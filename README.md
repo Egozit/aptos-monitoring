@@ -14,4 +14,10 @@
 . <(wget -qO- https://raw.githubusercontent.com/Egozit/aptos-monitoring/main/aptos_monitoring_install.sh)
 ```
 
+# One liner will install:
+* Prometheus client (skipped if already installed)
+* Configures aptos metric collection 
+
+
+# Screenshots
 ![Screenshot_1](https://github.com/Egozit/monitoring-screenshots/blob/0c7f4eb69f346dba1445ee1b7a1f5eea02f54659/Screenshot_2.png)
