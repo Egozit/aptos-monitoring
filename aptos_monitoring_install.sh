@@ -61,8 +61,6 @@ sudo apt-get install -y prometheus prometheus-node-exporter prometheus-pushgatew
 fi
 
 ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_address" | awk '{printf $2}')
-ADDR_CROWD="0x${ADDR_CROWD}"
-echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
 NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
 echo 'export NODE_NAME='"${NODE_NAME}" >> $HOME/.bash_profile
 
@@ -73,6 +71,9 @@ fi
 
 if [ ! $ADDR_CROWD ]; then
 read -p "Enter owner address: " ADDR_CROWD
+echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
+else 
+ADDR_CROWD="0x${ADDR_CROWD}"
 echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
 fi
 
