@@ -62,8 +62,9 @@ fi
 
 ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_address" | awk '{printf $2}')
 ADDR_CROWD="0x${ADDR_CROWD}"
+echo 'export ADDR_CROWD='"${ADDR_CROWD}" >> $HOME/.bash_profile
 NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
-
+echo 'export NODE_NAME='"${NODE_NAME}" >> $HOME/.bash_profile
 
 if [ ! $NODE_NAME ]; then
 read -p "Enter node name (to recognise yourself in the dashboard): " NODE_NAME
