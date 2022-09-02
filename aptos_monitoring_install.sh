@@ -61,7 +61,6 @@ sudo apt-get install -y prometheus prometheus-node-exporter prometheus-pushgatew
 fi
 
 ADDR_CROWD=$(cat /root/.aptos/keys/validator-identity.yaml | grep "account_address" | awk '{printf $2}')
-NODE_NAME=$(cat /root/.aptos/layout.yaml | grep users | awk '{printf $2}' | jq '.[]')
 echo 'export NODE_NAME='"${NODE_NAME}" >> $HOME/.bash_profile
 
 if [ ! $NODE_NAME ]; then
