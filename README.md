@@ -24,7 +24,7 @@ After installation go to [Grafana dashboard](http://95.216.2.219:3000/d/tWti5eZ4
 * Adds custom metrics like chain_id, stake amount and missed proposals which are crusial for AIT3 Rewards
 
 # Troubleshooting:
-If you encounter any additional issues feel free to cantact us on telegram:
+If you encounter any additional issues feel free to contact us on telegram:
 https://t.me/L0vd_staking
 
 # Screenshots
